@@ -176,9 +176,10 @@ class HTCondorEnvironment(Environment):
         # Get parsers paths from the experiment
         resources = ""
         for resource in self.exp.resources:
-            filename = self.exp.env_vars_relative[resource.name]
-            rel = os.path.join("../../", filename)
-            resources += f"\n{rel}, \\"
+            if resource.name and resource.name in self.exp.env_vars_relative:
+                filename = self.exp.env_vars_relative[resource.name]
+                rel = os.path.join("../../", filename)
+                resources += f"\n{rel}, \\"
 
         script = fill_template(
             "htcondor-job",
