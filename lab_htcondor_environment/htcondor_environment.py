@@ -11,8 +11,10 @@ from lab.environments import Environment
 
 def fill_template(template_name, **parameters):
     template = tools.get_string(
-        pkgutil.get_data("lab_htcondor_environment",
-                          os.path.join("data", template_name + ".template"))
+        pkgutil.get_data(
+            "lab_htcondor_environment",
+            os.path.join("data", template_name + ".template"),
+        )
     )
     return template % parameters
 
@@ -108,8 +110,8 @@ class HTCondorEnvironment(Environment):
                 with open(patched_run, "w") as outp:
                     for line in inp:
                         line = line.replace(
-                                tools.get_python_executable(), "python3"
-                            ).replace("../../", "")
+                            tools.get_python_executable(), "python3"
+                        ).replace("../../", "")
                         line = code_path_regex.sub("'code-", line)
                         line = absolute_path_regex.sub("'", line)
                         outp.write(line)
@@ -172,12 +174,11 @@ class HTCondorEnvironment(Environment):
         self._create_condor_run_files()
 
         # Get parsers paths from the experiment
-        parsers = ""
+        resources = ""
         for resource in self.exp.resources:
-            if resource.is_parser:
-                parser_filename = self.exp.env_vars_relative[resource.name]
-                rel_parser = os.path.join("../../", parser_filename)
-                parsers += f"\n{rel_parser}, \\"
+            filename = self.exp.env_vars_relative[resource.name]
+            rel = os.path.join("../../", filename)
+            resources += f"\n{rel}, \\"
 
         script = fill_template(
             "htcondor-job",
@@ -192,7 +193,7 @@ class HTCondorEnvironment(Environment):
             request_memory=self.request_memory,
             custom_lines=self.custom_lines,
             n_tasks=len(self.exp.runs),
-            parsers=parsers,
+            resources=resources,
             code_dirs=code_dirs,
         )
 
