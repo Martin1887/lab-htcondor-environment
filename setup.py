@@ -33,6 +33,6 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Topic :: Scientific/Engineering",
     ],
-    install_requires=["lab"],
+    install_requires=["lab>=8"],
     python_requires=">=3.7",
 )

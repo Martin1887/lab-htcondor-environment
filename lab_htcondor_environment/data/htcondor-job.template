@@ -44,8 +44,7 @@
   patched_run, \
   run_task.py, \
   condor_run, \
-  ../../requirements.txt, \%(resources)s
-  %(code_dirs)s
+  ../../requirements.txt%(resources)s
 
   %(custom_lines)s
 

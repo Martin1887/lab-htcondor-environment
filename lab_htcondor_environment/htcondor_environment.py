@@ -178,7 +178,7 @@ class HTCondorEnvironment(Environment):
         for resource in self.exp.resources:
             filename = resource.dest
             rel = os.path.join("../../", filename)
-            resources += f"\n{rel}, \\"
+            resources += f",\\\n  {rel}"
 
         script = fill_template(
             "htcondor-job",
@@ -194,7 +194,6 @@ class HTCondorEnvironment(Environment):
             custom_lines=self.custom_lines,
             n_tasks=len(self.exp.runs),
             resources=resources,
-            code_dirs=code_dirs,
         )
 
         self.exp.add_new_file("", self.EXP_RUN_SCRIPT, script, permissions=0o755)
