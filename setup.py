@@ -9,7 +9,7 @@ with open("README.md") as f1:
 
 setup(
     name="lab-htcondor-environment",
-    version="1.0",
+    version="1.0.1",
     description="HTCondor environment for Lab and Downward Lab",
     long_description=long_description,
     long_description_content_type="text/x-rst",
