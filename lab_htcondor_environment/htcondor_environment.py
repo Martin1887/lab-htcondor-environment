@@ -167,7 +167,6 @@ class HTCondorEnvironment(Environment):
         """
         self._create_symlinks()
 
-        code_dirs = self._get_code_dirs()
         self._create_requirements_file()
         self._create_patched_run_files()
         self._create_run_task_files()
@@ -176,7 +175,8 @@ class HTCondorEnvironment(Environment):
         # Get parsers paths from the experiment
         resources = ""
         for resource in self.exp.resources:
-            filename = resource.dest
+            # the last slash must be trimmed
+            filename = resource.dest.rstrip("/")
             rel = os.path.join("../../", filename)
             resources += f",\\\n  {rel}"
 
